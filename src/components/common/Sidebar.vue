@@ -24,7 +24,7 @@
                     {
                         icon: 'el-icon-lx-home',
                         index: 'mailaddress',
-                        title: '新闻管理',
+                        title: '邮件管理',
                         isshow: false,
                         pk: '1'
                     },
@@ -37,16 +37,64 @@
                     },
                     {
                         icon: 'el-icon-lx-home',
+                        index: 'utilparam',
+                        title: '系统参数管理',
+                        isshow: false,
+                        pk: '3'
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
                         index: 'myModule',
                         title: '模块管理',
                         isshow: false,
-                        pk: '3'
+                        pk: '4'
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'authority',
+                        title: '权限管理',
+                        isshow: false,
+                        pk: '5'
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'sidelink',
+                        title: '支持链接管理',
+                        isshow: false,
+                        pk: '6'
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'team',
+                        title: '团队信息管理',
+                        isshow: false,
+                        pk: '7'
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'friendlyurl',
+                        title: '友情链接管理',
+                        isshow: false,
+                        pk: '8'
+                    }, {
+                        icon: 'el-icon-lx-home',
+                        index: 'creater',
+                        title: '信息员管理',
+                        isshow: false,
+                        pk: '9'
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'artist',
+                        title: '信息内容管理',
+                        isshow: false,
+                        pk: '10'
                     }
 
 
                 ],
                 res: [],
-                useritem: ['0', '1', '2','3']
+                useritem: ['0', '1', '2', '3', '4','5','6','7','8','9','10']
             };
         },
         computed: {

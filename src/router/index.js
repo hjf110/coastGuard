@@ -21,6 +21,12 @@ export default new Router({
                     meta: { title: '系统首页', permission: true }
                 },
                 {
+                    path: '/mailaddress',
+                    name: 'mailaddress',
+                    component: () => import('@/view/mailaddress/'),
+                    meta: { title: '邮件管理', permission: true }
+                },
+                {
                     path: '/advertisement',
                     name: 'advertisement',
                     component: () => import('@/view/advertisement/'),
@@ -31,12 +37,48 @@ export default new Router({
                     name: 'utilparam',
                     component: () => import('@/view/utilparam/'),
                     meta: { title: '系统参数管理', permission: true }
-                } ,
+                },
                 {
                     path: '/myModule',
                     name: 'myModule',
                     component: () => import('@/view/myModule/'),
                     meta: { title: '模块管理', permission: true }
+                },
+                {
+                    path: '/authority',
+                    name: 'authority',
+                    component: () => import('@/view/authority/'),
+                    meta: { title: '权限管理', permission: true }
+                },
+                {
+                    path: '/sidelink',
+                    name: 'sidelink',
+                    component: () => import('@/view/sidelink/'),
+                    meta: { title: '支持链接管理', permission: true }
+                },
+                {
+                    path: '/team',
+                    name: 'team',
+                    component: () => import('@/view/team/'),
+                    meta: { title: '团队信息管理', permission: true }
+                },
+                {
+                    path: '/friendlyurl',
+                    name: 'friendlyurl',
+                    component: () => import('@/view/friendlyurl/'),
+                    meta: { title: '友情链接管理', permission: true }
+                },
+                {
+                    path: '/creater',
+                    name: 'creater',
+                    component: () => import('@/view/creater/'),
+                    meta: { title: '信息员管理', permission: true }
+                },
+                {
+                    path: '/artist',
+                    name: 'artist',
+                    component: () => import('@/view/artist/'),
+                    meta: { title: '信息内容管理', permission: true }
                 }
 
             ]
