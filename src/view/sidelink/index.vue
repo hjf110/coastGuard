@@ -13,7 +13,7 @@
                         width="50">
                 </el-table-column>
                 <el-table-column prop="name" label="名称"></el-table-column>
-                <el-table-column prop="icon" label="图标"></el-table-column>
+<!--                <el-table-column prop="icon" label="图标"></el-table-column>-->
                 <el-table-column prop="url" label="跳转链接"></el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">

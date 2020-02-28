@@ -2,6 +2,9 @@ const baseUrl = process.env.VUE_APP_BASE_URL;//主业务接口地址
 const baseUrlDD = process.env.VUE_APP_BASE_URL_DD;//钉钉相关接口地址
 
 export default {
+    setting:{
+        img:baseUrl+'file/local-upload',//上传图片地址
+    },
     artist:{//信息内容管理
         add:baseUrl+'artist/add',
         edit:baseUrl+'artist/edit',

@@ -24,14 +24,14 @@
                     {
                         icon: 'el-icon-lx-home',
                         index: 'mailaddress',
-                        title: '邮件管理',
+                        title: '首长直通邮箱管理',
                         isshow: false,
                         pk: '1'
                     },
                     {
                         icon: 'el-icon-lx-home',
                         index: 'advertisement',
-                        title: '轮播图管理',
+                        title: '首页图片管理',
                         isshow: false,
                         pk: '2'
                     },
@@ -45,28 +45,28 @@
                     {
                         icon: 'el-icon-lx-home',
                         index: 'myModule',
-                        title: '模块管理',
+                        title: '栏目管理',
                         isshow: false,
                         pk: '4'
                     },
                     {
                         icon: 'el-icon-lx-home',
                         index: 'authority',
-                        title: '权限管理',
+                        title: '权限组管理',
                         isshow: false,
                         pk: '5'
                     },
                     {
                         icon: 'el-icon-lx-home',
                         index: 'sidelink',
-                        title: '支持链接管理',
+                        title: '右侧链接管理',
                         isshow: false,
                         pk: '6'
                     },
                     {
                         icon: 'el-icon-lx-home',
                         index: 'team',
-                        title: '团队信息管理',
+                        title: '部门架构管理',
                         isshow: false,
                         pk: '7'
                     },
@@ -79,14 +79,14 @@
                     }, {
                         icon: 'el-icon-lx-home',
                         index: 'creater',
-                        title: '信息员管理',
+                        title: '管理员管理',
                         isshow: false,
                         pk: '9'
                     },
                     {
                         icon: 'el-icon-lx-home',
                         index: 'artist',
-                        title: '信息内容管理',
+                        title: '新闻管理',
                         isshow: false,
                         pk: '10'
                     }

@@ -14,7 +14,11 @@
                 </el-table-column>
                 <el-table-column prop="name" label="名称"></el-table-column>
                 <el-table-column prop="url" label="跳转地址"></el-table-column>
-                <el-table-column prop="parent" label="上级链接"></el-table-column>
+                <el-table-column prop="parent" label="上级链接">
+                    <template slot-scope="scope">
+                        {{getParent(scope.row.parent)}}
+                    </template>
+                </el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="edit(scope.row)">编辑</el-button>
@@ -79,6 +83,24 @@
         },
         computed: {},
         methods: {
+            getParent(info){
+                let name;
+                if(info===1){
+                    name = '海警总队';
+                }else if(info===2){
+                    name = '机动总队';
+                }else if(info===3){
+                    name = '属地支队';
+                }else if(info===4){
+                    name = '武警支队';
+                }else if(info===5){
+                    name = '解放军部队';
+                }else{
+                    name = '';
+                }
+                
+                return name;
+            },
             setTableDate() {
                 this.table.loading = true;
                 main.list(this.table.select).then(res => {

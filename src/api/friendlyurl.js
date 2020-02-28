@@ -33,7 +33,7 @@ const add = query => {
 const del = query => {
     return request({
         url: Api.friendlyurl.del,
-        method: 'post',
+        method: 'get',
         params: query
     });
 };

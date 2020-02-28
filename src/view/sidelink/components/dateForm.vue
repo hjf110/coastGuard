@@ -4,9 +4,9 @@
       <el-form-item label="名称" prop="name">
         <el-input v-model="formData.name" placeholder="请输入名称" clearable :style="{width: '100%'}"></el-input>
       </el-form-item>
-      <el-form-item label="图标" prop="icon">
-        <el-input v-model="formData.icon" placeholder="请输入图标" clearable :style="{width: '100%'}"></el-input>
-      </el-form-item>
+<!--      <el-form-item label="图标" prop="icon">-->
+<!--        <el-input v-model="formData.icon" placeholder="请输入图标" clearable :style="{width: '100%'}"></el-input>-->
+<!--      </el-form-item>-->
       <el-form-item label="跳转地址" prop="url">
         <el-input v-model="formData.url" placeholder="请输入跳转地址" clearable :style="{width: '100%'}"></el-input>
       </el-form-item>
