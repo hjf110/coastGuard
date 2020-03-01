@@ -9,15 +9,35 @@
             <el-table v-loading="table.loading" :data="table.tableData" border
                       style="width: 100%;margin-top: 10px;margin-bottom: 10px;">
                 <el-table-column
+                        label="序号"
                         type="index"
                         width="50">
                 </el-table-column>
-                <el-table-column prop="orderNum" label="排序"></el-table-column>
-                <el-table-column prop="picture" label="图片"></el-table-column>
+                <el-table-column prop="picture" label="图片">
+                    <template slot-scope="scope">
+                        <el-image
+                                style="width: 100%;height: 50px;"
+                                fit="contain"
+                                :src = "scope.row.picture"
+                                :preview-src-list="[scope.row.picture]"
+                                class = "avatar" />
+                    </template>
+                </el-table-column>
                 <el-table-column prop="position" label="位置"></el-table-column>
                 <el-table-column prop="textinfo" label="说明"></el-table-column>
-                <el-table-column prop="valid" label="是否有效"></el-table-column>
+                <el-table-column prop="valid" label="是否有效">
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.valid===1">
+                            <el-tag type="success">有效</el-tag>
+                        </template>
+                        <template v-else>
+                            <el-tag type="danger">无效</el-tag>
+                        </template>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="weburl" label="广告地址"></el-table-column>
+                <el-table-column prop="orderNum" width="50" label="排序"></el-table-column>
+
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="edit(scope.row)">编辑</el-button>

@@ -5,9 +5,9 @@ const tool = {
      * @param e
      * @returns {string}
      */
-    getTime(type, e, obj) {
+    getTime(type, e) {
         let date;
-        if (!obj) {
+        if (e) {
             date = new Date(e);
         } else {
             date = new Date(); //现在

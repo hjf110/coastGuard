@@ -21,9 +21,11 @@ import FormMaking from 'form-making';
 import 'form-making/dist/FormMaking.css';
 //富文本编辑器
 import VueEditor from "vue2-editor"
+import VueImageSwipe from 'vue-image-swipe'
+import 'vue-image-swipe/dist/vue-image-swipe.css'
 
 
-
+Vue.use(VueImageSwipe);
 Vue.use(VueEditor);
 Vue.use(FormMaking);
 Vue.use(Fragment.Plugin);
@@ -31,6 +33,7 @@ Vue.config.productionTip = false;
 // Vue.use(VueI18n);
 Vue.use(MyTool);
 Vue.use(Vant);
+
 Vue.use(ElementUI, {
     size: 'mini',
 });

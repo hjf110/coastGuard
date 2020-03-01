@@ -3,8 +3,8 @@
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
             <el-form-item label="信息员" prop="createrid">
                 <el-select v-model="formData.createrid" placeholder="请选择信息员" clearable :style="{width: '100%'}">
-                    <el-option v-for="(item, index) in createridOptions" :key="index" :label="item.label"
-                               :value="item.value" :disabled="item.disabled"></el-option>
+                    <el-option v-for="(item, index) in createridOptions" :key="index" :label="item.name"
+                               :value="item.id" :disabled="item.disabled"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="权限组" prop="authgroup">
@@ -24,6 +24,7 @@
 </template>
 <script>
     import main from '@/api/authority';
+    import creater from '@/api/creater';
 
     export default {
         components: {},
@@ -57,22 +58,25 @@
                         trigger: 'blur'
                     }]
                 },
-                createridOptions: [{
-                    'label': '信息员1',
-                    'value': 1
-                }, {
-                    'label': '信息员2',
-                    'value': 2
-                }]
+                createridOptions: []
             };
         },
         computed: {},
         watch: {},
         created() {
+            this.getCreater();//获取用户
         },
         mounted() {
         },
         methods: {
+            /**
+             * 获取用户列表
+             */
+            getCreater(){
+                creater.list({page:1,limit:10000}).then(res=>{
+                    this.createridOptions = res.data;
+                }).catch(err=>{})
+            },
             clearForm() {//清空表单
                 this.formData.id = '';
                 this.formData.createrid = '';

@@ -12,14 +12,22 @@
                 <el-input v-model="formData.password" placeholder="请输入密码" clearable show-password
                           :style="{width: '100%'}"></el-input>
             </el-form-item>
-            <el-form-item label="所属team" prop="teamid">
-                <el-select v-model="formData.teamid" placeholder="请选择所属team" clearable :style="{width: '100%'}">
-                    <el-option v-for="(item, index) in teamidOptions" :key="index" :label="item.label"
-                               :value="item.value" :disabled="item.disabled"></el-option>
-                </el-select>
+            <el-form-item label="所属部门" prop="teamid">
+                <el-cascader
+                        style="width: 100%;"
+                        placeholder="请选择部门"
+                        v-model="teamList"
+                        :options="teamidOptions"
+                        :props="{ checkStrictly: true }"
+                        clearable></el-cascader>
+
+                <!--                <el-select v-model="formData.teamid" placeholder="请选择所属team" clearable :style="{width: '100%'}">-->
+                <!--                    <el-option v-for="(item, index) in teamidOptions" :key="index" :label="item.label"-->
+                <!--                               :value="item.value" :disabled="item.disabled"></el-option>-->
+                <!--                </el-select>-->
             </el-form-item>
             <el-form-item size="large">
-                <el-button :loading="loading"  type="primary" @click="submitForm">提交</el-button>
+                <el-button :loading="loading" type="primary" @click="submitForm">提交</el-button>
                 <el-button @click="resetForm">重置</el-button>
             </el-form-item>
         </el-form>
@@ -27,17 +35,21 @@
 </template>
 <script>
     import main from '@/api/creater';
+    import team from '@/api/team';
 
     export default {
         components: {},
         props: {
             type: Number,
-            close: Function
+            close: Function,
+            teamidOptions:Array
         },
         data() {
             return {
                 loading: false,
+                teamList: [],
                 formData: {
+                    id: '',
                     name: undefined,
                     account: undefined,
                     password: undefined,
@@ -61,22 +73,20 @@
                     }],
                     teamid: [{
                         required: true,
-                        message: '请选择所属team',
-                        trigger: 'change'
+                        message: '请选择所属部门',
+                        trigger: 'blur'
                     }]
                 },
-                teamidOptions: [{
-                    'label': '选项一',
-                    'value': 1
-                }, {
-                    'label': '选项二',
-                    'value': 2
-                }]
             };
         },
         computed: {},
-        watch: {},
+        watch: {
+            teamList(nv, ov) {
+                this.formData.teamid = nv[nv.length - 1];
+            }
+        },
         created() {
+            // this.getTeam();//获取部门
         },
         mounted() {
         },
@@ -87,6 +97,7 @@
                 this.formData.account = '';
                 this.formData.password = '';
                 this.formData.teamid = '';
+                this.teamList = [];
             },
             setForm(date) {//赋值表单
                 this.formData.id = date.id;
@@ -94,6 +105,39 @@
                 this.formData.account = date.account;
                 this.formData.password = date.password;
                 this.formData.teamid = date.teamid;
+
+                let list = this.teamidOptions;
+                for (let i = 0; i < this.teamidOptions.length; i++) {
+                    if (date.teamid === list[i].value) {
+                        this.teamList = [date.teamid];
+                        return false;
+                    }
+                    if(list[i].children){
+                        if (list[i].children.length > 0) {
+                            let list2 = list[i].children;
+                            for (let j = 0; j <list2.length ; j++) {
+                                if (date.teamid === list2[j].value) {
+                                    this.teamList = [list[i].value,date.teamid];
+                                    return false;
+                                }
+
+                                if(list2[j].children){
+                                    if(list2[j].children.length>0){
+                                        let list3 = list2[j].children;
+                                        for (let k = 0; k < list3.length; k++) {
+                                            if (date.teamid === list3[k].value) {
+                                                this.teamList = [list[i].value,list2[j].value,date.teamid];
+                                                return false;
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+
             },
             submitForm() {
                 this.$refs['elForm'].validate(valid => {

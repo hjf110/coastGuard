@@ -3,7 +3,6 @@
         <el-form ref = "elForm" :model = "formData" :rules = "rules" size = "mini" label-width = "100px">
             <el-form-item label = "广告图" prop = "picture" required>
                 <el-upload
-                        class = "avatar-uploader"
                         ref = "pic"
                         :file-list = "picfileList"
                         :action = "picAction"
@@ -11,12 +10,13 @@
                         :before-upload = "picBeforeUpload"
                         :on-success = "UploadSuccess"
                 >
-                    <img style="width: 100px;height: 100px;" v-if = "formData.picture" :src = "formData.picture" class = "avatar">
-                    <i v-else class = "el-icon-plus avatar-uploader-icon"></i>
+                    <el-button  type = "primary">
+                        {{formData.picture?'修改图片':'点击上传图片'}}
+                    </el-button>
                 </el-upload>
-                <el-button  v-if = "formData.picture" type = "primary" @click = "lookPhoto">
-                    点击查看
-                </el-button>
+
+                <el-image style="width: 100%;height: 100px;" fit="contain" v-if = "formData.picture" :src = "formData.picture" :preview-src-list="[formData.picture]" class = "avatar"></el-image>
+
             </el-form-item>
             <el-form-item label = "排序" prop = "orderNum">
                 <el-input-number v-model = "formData.orderNum" placeholder = "排序值" step-strictly :precision = '1'>
@@ -35,12 +35,28 @@
                 </el-input>
             </el-form-item>
             <el-form-item label = "有效" prop = "valid" required>
-                <el-switch v-model = "formData.valid"></el-switch>
+                <el-switch :active-value="1"
+                           :inactive-value="0" v-model = "formData.valid"></el-switch>
             </el-form-item>
             <el-form-item size = "large">
                 <el-button :loading = "loading" type = "primary" @click = "submitForm">提交</el-button>
                 <el-button @click = "resetForm">重置</el-button>
             </el-form-item>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </el-form>
         
         
@@ -50,6 +66,7 @@
 <script>
 import main from '@/api/advertisement';
 import api from '@/api/apiUrl/';
+
 
 export default {
     components: {},
@@ -107,7 +124,15 @@ export default {
     },
     methods: {
         lookPhoto(){
-        
+
+            this.$imagePreview({
+                images:[this.formData.picture],
+                index: 1,
+            });
+            // ImagePreview([
+            //     'https://img.yzcdn.cn/1.jpg',
+            //     'https://img.yzcdn.cn/2.jpg'
+            // ]);
         },
         clearForm() {//清空表单
             this.formData.id = '';
@@ -180,11 +205,16 @@ export default {
         line-height: 1.2;
     }
     
-    .el-upload {
-        width: 100px;
-        height: 100px;
+    /*.el-upload {*/
+    /*    width: 100%;*/
+    /*    height: 100px;*/
+    /*}*/
+    .el-upload--text{
+        border: none;
+        width: 100%;
+        height: 100%;
+        text-align: left;
     }
-    
     .avatar-uploader-icon {
         font-size: 50px;
         line-height: 100px;

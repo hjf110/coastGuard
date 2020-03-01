@@ -16,7 +16,16 @@
                 <el-table-column prop="leftright" label="靠左靠右"></el-table-column>
                 <el-table-column prop="rowindex" label="第几排"></el-table-column>
                 <el-table-column prop="width" label="宽度"></el-table-column>
-                <el-table-column prop="valid" label="是否启用"></el-table-column>
+                <el-table-column prop="valid" label="是否启用">
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.valid===1">
+                            <el-tag type="success">启用</el-tag>
+                        </template>
+                        <template v-else>
+                            <el-tag type="danger">禁用</el-tag>
+                        </template>
+                    </template>
+                </el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="edit(scope.row)">编辑</el-button>

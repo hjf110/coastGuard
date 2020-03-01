@@ -44,8 +44,9 @@
 </template>
 
 <script>
-    import main from '@/api/advertisement';
+    import main from '@/api/authority';
     import dateForm from './components/dateForm.vue';
+
 
 
     export default {
@@ -79,6 +80,7 @@
         },
         computed: {},
         methods: {
+
             setTableDate() {
                 this.table.loading = true;
                 main.list(this.table.select).then(res => {
