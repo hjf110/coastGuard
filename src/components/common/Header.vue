@@ -2,16 +2,20 @@
     <div class="header">
         <!-- 折叠按钮 -->
         <div class="collapse-btn" @click="collapseChage">
-            <i v-if = "!collapse" class = "el-icon-s-fold"/>
-            <i v-else class = "el-icon-s-unfold"/>
+            <i v-if="!collapse" class="el-icon-s-fold" />
+            <i v-else class="el-icon-s-unfold" />
         </div>
-        <div class="logo">海曙疫情管理系统</div>
+        <div class="logo">海警总队第二支队综合信息网</div>
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 全屏显示 -->
                 <div class="btn-fullscreen" @click="handleFullScreen">
-                    <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
-                        <i class = "el-icon-rank"/>
+                    <el-tooltip
+                        effect="dark"
+                        :content="fullscreen ? `取消全屏` : `全屏`"
+                        placement="bottom"
+                    >
+                        <i class="el-icon-rank" />
                     </el-tooltip>
                 </div>
                 <!-- 消息中心 -->
@@ -25,13 +29,13 @@
                 <!--                </div>-->
                 <!-- 用户头像 -->
                 <div class="user-avator">
-                    <img src="../../assets/img/img.jpg"  alt=""/>
+                    <img src="../../assets/img/img.jpg" alt />
                 </div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
                         {{ username }}
-                        <i class = "el-icon-caret-bottom"/>
+                        <i class="el-icon-caret-bottom" />
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <!--                        <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">-->
@@ -59,7 +63,7 @@ export default {
         username() {
             let jsonInfo = JSON.parse(sessionStorage.getItem('ms_userInfo'));
             let username;
-            if(jsonInfo)  username = jsonInfo.name;
+            if (jsonInfo) username = jsonInfo.name;
 
             return username ? username : this.name;
         }
@@ -132,6 +136,7 @@ export default {
     float: left;
     width: 250px;
     line-height: 50px;
+    font-size: 15px;
 }
 .header-right {
     float: right;
