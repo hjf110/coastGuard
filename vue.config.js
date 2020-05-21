@@ -1,6 +1,7 @@
 module.exports = {
     publicPath: './',
     assetsDir: 'static',
+    outputDir: 'coastGuard',
     productionSourceMap: false,
     devServer: {
         port: 10015, //开发环境端口号
@@ -21,13 +22,13 @@ module.exports = {
         if (process.env.NODE_ENV === 'production') {
             config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
         }
-        
-        
+
+
     },
     //警告 webpack 的性能提示
-    configureWebpack : {
+    configureWebpack: {
         performance: {
-            hints:'warning',
+            hints: 'warning',
             //入口起点的最大体积 整数类型（以字节为单位）
             maxEntrypointSize: 50000000,
             //生成文件的最大体积 整数类型（以字节为单位 300k）
