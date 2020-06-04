@@ -1,43 +1,84 @@
 <template>
     <div>
         <el-card class="box-card">
-            <el-input style="width: 180px;margin: 0 10px;" autocomplete="off" placeholder="查询" v-model="table.select.name"></el-input>
-            <el-button type="primary" @click="reloadTable" icon="el-icon-search">查询</el-button>
-            <el-button type="primary" @click="add">新增</el-button>
+            <el-row :gutter="20">
+                <el-col :span="4">
+                    <model-tree :treeData="data.tree" :handleClick="showArtist"></model-tree>
+                </el-col>
+                <el-col :span="20">
+                    <el-breadcrumb separator="/">
+                        <el-breadcrumb-item
+                            v-for="(item, index) in data.heard"
+                            :key="index"
+                        >{{ item }}</el-breadcrumb-item>
+                    </el-breadcrumb>
+                    <el-form style="margin-top:20px;" :model="table.select" inline>
+                        <el-form-item>
+                            <el-date-picker
+                                v-model="table.select.time"
+                                format="yyyy-MM-dd HH:mm:ss"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                type="datetimerange"
+                                start-placeholder="发布起始时间"
+                                end-placeholder="发布结束时间"
+                            ></el-date-picker>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="reloadTable" icon="el-icon-search">查询</el-button>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button v-if="table.select.module" type="primary" @click="add">新增</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-table
+                        v-loading="table.loading"
+                        :data="table.tableData"
+                        border
+                        style="width: 100%;margin-top: 10px;margin-bottom: 10px;"
+                    >
+                        <el-table-column type="index" width="50"></el-table-column>
+                        <!-- <el-table-column prop="content" label="文章内容"></el-table-column> -->
+                        <!-- <el-table-column prop="createrid" label="信息员ID"></el-table-column> -->
+                        <el-table-column prop="creatername" label="作者"></el-table-column>
+                        <!-- <el-table-column prop="module" label="所属模块"></el-table-column> -->
+                        <!-- <el-table-column prop="picture" label="图片地址"></el-table-column> -->
+                        <el-table-column prop="publishtime" label="发布时间"></el-table-column>
+                        <!-- <el-table-column prop="substract" label="梗要预览"></el-table-column> -->
+                        <!-- <el-table-column prop="teamid" label="所属编队"></el-table-column> -->
+                        <el-table-column prop="title" label="标题"></el-table-column>
+                        <el-table-column prop="valid" label="是否启用">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.valid === 1">
+                                    <el-tag type="success">启用</el-tag>
+                                </template>
+                                <template v-else>
+                                    <el-tag type="danger">禁用</el-tag>
+                                </template>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="createtime" label="创建时间"></el-table-column>
 
-            <el-table v-loading="table.loading" :data="table.tableData" border style="width: 100%;margin-top: 10px;margin-bottom: 10px;">
-                <el-table-column type="index" width="50"> </el-table-column>
-                <el-table-column prop="content" label="文章内容"></el-table-column>
-                <el-table-column prop="createrid" label="信息员ID"></el-table-column>
-                <el-table-column prop="creatername" label="作者"></el-table-column>
-                <el-table-column prop="createtime" label="创建时间"></el-table-column>
-                <el-table-column prop="module" label="所属模块"></el-table-column>
-                <el-table-column prop="picture" label="图片地址"></el-table-column>
-                <el-table-column prop="publishtime" label="发布时间"></el-table-column>
-                <el-table-column prop="substract" label="梗要预览"></el-table-column>
-                <el-table-column prop="teamid" label="所属编队"></el-table-column>
-                <el-table-column prop="title" label="标题"></el-table-column>
-                <el-table-column prop="valid" label="是否有效"></el-table-column>
-                <el-table-column prop="weburl" label="页面详情地址"></el-table-column>
-                <el-table-column label="操作">
-                    <template slot-scope="scope">
-                        <el-button size="mini" @click="edit(scope.row)">编辑</el-button>
-                        <el-button size="mini" @click="del(scope.row.id)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="table.select.page"
-                :page-size="table.select.limit"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="table.total"
-            >
-            </el-pagination>
+                        <!-- <el-table-column prop="weburl" label="页面详情地址"></el-table-column> -->
+                        <el-table-column label="操作" width="145">
+                            <template slot-scope="scope">
+                                <el-button @click="edit(scope.row)">编辑</el-button>
+                                <el-button type="danger" @click="del(scope.row.id)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="table.select.page"
+                        :page-size="table.select.limit"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="table.total"
+                    ></el-pagination>
+                </el-col>
+            </el-row>
         </el-card>
 
-        <el-dialog :visible.sync="pop.form" width="600px" :close-on-press-escape="false">
+        <el-dialog :visible.sync="pop.form" width="90vw" center :close-on-press-escape="false">
             <date-form
                 ref="dateForm"
                 :type="settings.form.type"
@@ -50,15 +91,20 @@
 </template>
 
 <script>
+//接口
 import main from '@/api/artist';
+import myModule from '@/api/myModule';
+
+//组件
 import dateForm from './components/dateForm.vue';
 import team from '@/api/team';
-import myModule from '@/api/myModule';
+import modelTree from './components/modelTree.vue';
 
 export default {
     name: 'index',
     components: {
-        dateForm
+        dateForm,
+        modelTree
     },
     data() {
         return {
@@ -69,12 +115,20 @@ export default {
             },
             table: {
                 select: {
+                    time: [],
                     page: 1,
-                    limit: 20
+                    limit: 20,
+                    module: undefined,
+                    publishtime_begin: undefined,
+                    publishtime_end: undefined
                 },
                 loading: false,
                 total: 0,
                 tableData: []
+            },
+            data: {
+                heard: [],
+                tree: []
             },
             settings: {
                 form: {
@@ -84,6 +138,18 @@ export default {
                 ddDepartment: [] //获取所有部门下拉
             }
         };
+    },
+    watch: {
+        'table.select.time'(nv) {
+            console.log(nv);
+            if (nv) {
+                this.table.select.publishtime_begin = nv[0];
+                this.table.select.publishtime_end = nv[1];
+            } else {
+                this.table.select.publishtime_begin = undefined;
+                this.table.select.publishtime_end = undefined;
+            }
+        }
     },
     computed: {},
     methods: {
@@ -175,13 +241,19 @@ export default {
                 .list({ page: 1, limit: 10000 })
                 .then(res => {
                     this.moduleOptions = res.data;
+                    //得到应该显示的栏目
+                    let lm = sessionStorage.getItem('moudelP').split('&');
+
+                    let list = res.data.filter(j => lm.findIndex(i => i === j.name) > -1);
+
+                    this.data.tree = this.$ValidateUtil.getParent(list);
                 })
                 .catch(err => {});
         },
 
         setTableDate() {
             this.table.loading = true;
-            main.list(this.table.select)
+            main.list({ ...this.table.select })
                 .then(res => {
                     // console.log('1111111111111====', res);
                     this.table.tableData = res.data;
@@ -225,7 +297,7 @@ export default {
             this.settings.form.type = 1;
             this.pop.form = true;
             this.$nextTick(() => {
-                this.$refs['dateForm'].clearForm();
+                this.$refs['dateForm'].clearForm(this.table.select.module);
             });
         },
         edit(data) {
@@ -252,13 +324,22 @@ export default {
                         .catch(err => {});
                 })
                 .catch(() => {});
+        },
+        showArtist({ id, parentIds }) {
+            let list = parentIds.split(',').filter(j => j);
+            this.data.heard = list.map(j => {
+                return this.moduleOptions.find(i => i.id == j).name;
+            });
+            this.table.select.module = id;
+            this.table.select.page = 1;
+            this.reloadTable();
         }
     },
     created() {
         this.getTeam();
         this.getModuleOptions();
         setTimeout(() => {
-            this.setTableDate(); //获取表格数据
+            // this.setTableDate(); //获取表格数据
         }, 100);
     },
     mounted() {}

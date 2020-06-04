@@ -1,4 +1,39 @@
 const tool = {
+    //获取最大的父节点
+    getParent(allList) {
+        let list = [];
+        allList.forEach((obj, idx) => {
+            // delete obj.children;
+            if (!obj.parent) {
+                obj.value = obj.id;
+                obj.label = obj.name;
+                obj.children = this.getTree(obj.id, allList);
+                list.push(obj);
+            }
+        });
+        return list;
+    },
+    //获取部门的树形数据
+    getTree(pid, list) {
+        const that = this;
+        //let list = this.settings.treeDdDept;
+        // console.log('进入了--------------');
+        //app.tosort(list,"headerSort",true);
+        let treeList = [];
+        for (let i = 0; i < list.length; i++) {
+            // delete list[i].children;
+            if (list[i].parent === pid) {
+                list[i].value = list[i].id;
+                list[i].label = list[i].name;
+                let cc = that.getTree(list[i].id, list);
+                if (cc.length > 0) {
+                    list[i].children = cc; //子部门
+                }
+                treeList.push(list[i]);
+            }
+        }
+        return treeList;
+    },
     /**
      * 根据时间的值获取时间
      * @param type 1:年月日 2:年月日时分秒
@@ -31,7 +66,7 @@ const tool = {
     ObjListQc(arr, key) {
         let obj = {};
         arr = arr.reduce((item, next) => {
-            obj[next[key]] ? '' : obj[next[key]] = true && item.push(next);
+            obj[next[key]] ? '' : (obj[next[key]] = true && item.push(next));
             return item;
         }, []);
         return arr;
@@ -100,9 +135,7 @@ const tool = {
      */
     IsPC() {
         let userAgentInfo = navigator.userAgent;
-        let Agents = ['Android', 'iPhone',
-            'SymbianOS', 'Windows Phone',
-            'iPad', 'iPod'];
+        let Agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod'];
         let flag = true;
         for (var v = 0; v < Agents.length; v++) {
             if (userAgentInfo.indexOf(Agents[v]) > 0) {
@@ -128,7 +161,7 @@ const tool = {
         // 计算相差分钟数
         let minutes = Math.floor(leave2 / (60 * 1000));
         let time = days + '天' + hours + '时' + minutes + '分';
-        return [days,hours,minutes];
+        return [days, hours, minutes];
     },
     /**
      ** list 排序
@@ -140,18 +173,18 @@ const tool = {
      * @param attr 根据对象的哪个参数进行排序
      * @param rev 降序还是升序(true为升序,,false为降序)
      */
-    tosort(list, attr, rev){
+    tosort(list, attr, rev) {
         list.sort(this.sortby(attr, rev));
     },
-    sortby(attr, rev){
+    sortby(attr, rev) {
         if (rev == undefined) {
             rev = 1;
         } else {
-            rev = (rev) ? 1 : -1;
+            rev = rev ? 1 : -1;
         }
-        
+
         return (a, b) => {
-            if (attr != null && attr != "" && attr != undefined) {
+            if (attr != null && attr != '' && attr != undefined) {
                 a = a[attr];
                 b = b[attr];
             } else {
@@ -165,9 +198,7 @@ const tool = {
                 return rev * 1;
             }
             return 0;
-        }
-        
+        };
     }
-    
 };
 export default tool;

@@ -1,95 +1,95 @@
 <template>
-            <el-menu
-                    class="sidebar-el-menu"
-                    :default-active="onRoutes"
-                    :collapse="collapse"
-                    background-color="#324157"
-                    text-color="#bfcbd9"
-                    active-text-color="#20a0ff"
-                    unique-opened
-                    router>
-                <sidebar-item v-for="menu in menuList" :key="menu.index" :item="menu" />
-            </el-menu>
-
+    <el-menu
+        class="sidebar-el-menu"
+        :default-active="onRoutes"
+        :collapse="collapse"
+        background-color="#324157"
+        text-color="#bfcbd9"
+        active-text-color="#20a0ff"
+        unique-opened
+        router
+    >
+        <sidebar-item v-for="menu in menuList" :key="menu.index" :item="menu" />
+    </el-menu>
 </template>
 
 <script>
-    import bus from '../common/bus';
-    import SidebarItem from '../common/SidebarItem.vue'
-    export default {
-        name: 'Sidebar_New',
-        components: { SidebarItem },
-        data() {
-            return {
-                collapse: false,
-            }
-        },
-        props:{
-            menuList: {
-                type: Array,
-                required: true
-            }
-        },
-        computed: {
-            onRoutes() {
-                return this.$route.path.replace('/', '');
-            }
-        },
-        created() {
-            // 通过 Event Bus 进行组件间通信，来折叠侧边栏
-            bus.$on('collapse', msg => {
-                this.collapse = msg;
-                bus.$emit('collapse-content', msg);
-            });
+import bus from '../common/bus';
+import SidebarItem from '../common/SidebarItem.vue';
+export default {
+    name: 'Sidebar_New',
+    components: { SidebarItem },
+    data() {
+        return {
+            collapse: false
+        };
+    },
+    props: {
+        menuList: {
+            type: Array,
+            required: true
         }
-    };
+    },
+    computed: {
+        onRoutes() {
+            return this.$route.path.replace('/', '');
+        }
+    },
+    created() {
+        // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+        bus.$on('collapse', msg => {
+            this.collapse = msg;
+            bus.$emit('collapse-content', msg);
+        });
+    }
+};
 </script>
 
 <style lang="scss">
-    .sidebar-el-menu:not(.el-menu--collapse) {
-        width: 250px;
-    }
-    .sidebar-container {
-        transition: width 0.28s;
-        width: 180px !important;
-        height: 100%;
-        position: fixed;
-        font-size: 0px;
-        bottom: 0;
-        left: 0;
-        z-index: 1001;
-        overflow: hidden;
+.sidebar-el-menu:not(.el-menu--collapse) {
+    width: 250px;
+}
+.sidebar-container {
+    transition: width 0.28s;
+    width: 180px !important;
+    height: 100%;
+    position: fixed;
+    font-size: 0px;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    overflow: hidden;
 
-        .horizontal-collapse-transition {
-            transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
-        }
-        .el-scrollbar {
+    .horizontal-collapse-transition {
+        transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
+    }
+    .el-scrollbar {
+        height: 100%;
+    }
+    .scrollbar-wrapper {
+        overflow-x: hidden !important;
+        .el-scrollbar__view {
             height: 100%;
-        }
-        .scrollbar-wrapper {
-            overflow-x: hidden!important;
-            .el-scrollbar__view {
-                height: 100%;
-            }
-        }
-        .el-scrollbar__bar.is-vertical{
-            right: 0px;
-        }
-        .is-horizontal {
-            display: none;
-        }
-        a {
-            display: inline-block;
-            width: 100%;
-            overflow: hidden;
-        }
-        .el-menu {
-            border: none;
-            height: 100%;
-            width: 100% !important;
-        }
-        .is-active > .el-submenu__title{
-            color: #f4f4f5!important;
         }
     }
+    .el-scrollbar__bar.is-vertical {
+        right: 0px;
+    }
+    .is-horizontal {
+        display: none;
+    }
+    a {
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
+    }
+    .el-menu {
+        border: none;
+        height: 100%;
+        width: 100% !important;
+    }
+    .is-active > .el-submenu__title {
+        color: #f4f4f5 !important;
+    }
+}
 </style>

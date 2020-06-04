@@ -28,7 +28,6 @@ const add = query => {
     });
 };
 
-
 //删除
 const del = query => {
     return request({
@@ -38,12 +37,19 @@ const del = query => {
     });
 };
 
-
-
+//删除
+const findContent = query => {
+    return request({
+        url: Api.artist.findContent,
+        method: 'get',
+        params: query
+    });
+};
 
 export default {
     list,
     edit,
     add,
-    del
+    del,
+    findContent
 };

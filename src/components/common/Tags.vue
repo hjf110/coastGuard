@@ -1,39 +1,38 @@
-<template >
-    <div class = "tags" v-if = "showTags" >
-        <ul >
-            <li class = "tags-li" v-for = "(item, index) in tagsList" :class = "{ active: isActive(item.path) }"
-                :key = "index" >
-                <router-link :to = "item.path" class = "tags-li-title" >
-                    <template v-if = "item.name == 'dashboard'" > <i class = "el-icon-hjf-1" ></i >首页 </template >
-                    <template v-else >
-                        <template v-if = "isActive(item.path)" ><i class = "el-icon-hjf-dian2" ></i ></template >
+<template>
+    <div class="tags" v-if="showTags">
+        <ul>
+            <li class="tags-li" v-for="(item, index) in tagsList" :class="{ active: isActive(item.path) }" :key="index">
+                <router-link :to="item.path" class="tags-li-title">
+                    <template v-if="item.name == 'dashboard'"> <i class="el-icon-hjf-1"></i>首页 </template>
+                    <template v-else>
+                        <template v-if="isActive(item.path)"><i class="el-icon-hjf-dian2"></i></template>
                         {{ item.title }}
-                    </template >
-                </router-link >
-                <template v-if = "item.name !== 'dashboard'" >
-                    <span class = "tags-li-icon" @click = "closeTags(index)" >
-                        <i class = "el-icon-close" ></i >
-                    </span >
-                </template >
-            </li >
-        </ul >
-        <div class = "tags-close-box" >
-            <el-dropdown @command = "handleTags" >
-                <el-button size = "mini" type = "primary" >
+                    </template>
+                </router-link>
+                <template v-if="item.name !== 'dashboard'">
+                    <span class="tags-li-icon" @click="closeTags(index)">
+                        <i class="el-icon-close"></i>
+                    </span>
+                </template>
+            </li>
+        </ul>
+        <div class="tags-close-box">
+            <el-dropdown @command="handleTags">
+                <el-button size="mini" type="primary">
                     标签选项
-                    <i class = "el-icon-arrow-down el-icon--right" ></i >
-                </el-button >
-                <el-dropdown-menu size = "small" slot = "dropdown" >
-                    <el-dropdown-item command = "rush" icon = "el-icon-refresh-right" >刷新页面</el-dropdown-item >
-                    <el-dropdown-item command = "other" icon = "el-icon-circle-close" >关闭其他</el-dropdown-item >
-                    <el-dropdown-item command = "all" icon = "el-icon-error" >关闭所有</el-dropdown-item >
-                </el-dropdown-menu >
-            </el-dropdown >
-        </div >
-    </div >
-</template >
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu size="small" slot="dropdown">
+                    <el-dropdown-item command="rush" icon="el-icon-refresh-right">刷新页面</el-dropdown-item>
+                    <el-dropdown-item command="other" icon="el-icon-circle-close">关闭其他</el-dropdown-item>
+                    <el-dropdown-item command="all" icon="el-icon-error">关闭所有</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+        </div>
+    </div>
+</template>
 
-<script >
+<script>
 import bus from './bus';
 
 export default {
@@ -153,9 +152,9 @@ export default {
         });
     }
 };
-</script >
+</script>
 
-<style >
+<style>
 .tags {
     position: relative;
     height: 30px;
@@ -225,4 +224,4 @@ export default {
     box-shadow: -3px 0 15px 3px rgba(0, 0, 0, 0.1);
     z-index: 10;
 }
-</style >
+</style>

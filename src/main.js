@@ -20,11 +20,15 @@ import Fragment from 'vue-fragment';
 import FormMaking from 'form-making';
 import 'form-making/dist/FormMaking.css';
 //富文本编辑器
-import VueEditor from "vue2-editor"
-import VueImageSwipe from 'vue-image-swipe'
-import 'vue-image-swipe/dist/vue-image-swipe.css'
+import VueEditor from 'vue2-editor';
+import VueImageSwipe from 'vue-image-swipe';
+import 'vue-image-swipe/dist/vue-image-swipe.css';
+// import Antd from 'ant-design-vue';
+// import 'ant-design-vue/dist/antd.css';
+import { Tree, TreeSelect } from 'ant-design-vue';
 
-
+Vue.use(Tree);
+Vue.use(TreeSelect);
 Vue.use(VueImageSwipe);
 Vue.use(VueEditor);
 Vue.use(FormMaking);
@@ -35,8 +39,9 @@ Vue.use(MyTool);
 Vue.use(Vant);
 
 Vue.use(ElementUI, {
-    size: 'mini',
+    size: 'mini'
 });
+// Vue.use(Antd);
 // const i18n = new VueI18n({
 //     locale: 'zh',
 //     messages
@@ -44,9 +49,7 @@ Vue.use(ElementUI, {
 
 const IsPC = () => {
     let userAgentInfo = navigator.userAgent;
-    let Agents = ['Android', 'iPhone',
-        'SymbianOS', 'Windows Phone',
-        'iPad', 'iPod'];
+    let Agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod'];
     let flag = true;
     for (let v = 0; v < Agents.length; v++) {
         if (userAgentInfo.indexOf(Agents[v]) > 0) {
@@ -56,7 +59,6 @@ const IsPC = () => {
     }
     return flag;
 };
-
 
 // 简单配置
 // NProgress.inc(0.2)
@@ -69,8 +71,8 @@ router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title}`;
     const role = sessionStorage.getItem('ms_userInfo');
     // let ispc = sessionStorage.getItem('isPC');
-    if (!role && to.path !== '/DDLogin' && to.path !== '/404' && to.path !== '/403') {
-        // next('/DDLogin');
+    if (!role && to.path !== '/login' && to.path !== '/404' && to.path !== '/403') {
+        next('/login');
         // next({ name: 'DDLogin', params: { id: 'aaa' }})
         next();
     } else if (to.meta.permission) {

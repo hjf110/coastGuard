@@ -1,30 +1,27 @@
 <template>
     <div>
-        <el-card class = "box-card">
-            <el-input style = "width: 180px;margin: 0 10px;" autocomplete = "off" placeholder = "查询"
-                    v-model = "table.select.name"></el-input>
-            <el-button type = "primary" @click = "reloadTable" icon = "el-icon-search">查询</el-button>
-            <el-button type = "primary" @click = "add">新增</el-button>
-            
-            <el-table v-loading = "table.loading" :data = "table.tableData" border
-                    border
-                    row-key = "id"
-                    border
-                    :default-expand-all = "false"
-                    :tree-props = "{ children: 'children', hasChildren: 'hasChildren' }"
-                    style = "width: 100%;margin-top: 10px;margin-bottom: 10px;">
-                
-                <el-table-column
-                        type = "index"
-                        width = "50">
-                </el-table-column>
-                <el-table-column prop = "name" label = "名称"></el-table-column>
-                <el-table-column prop = "parent" label = "上级"></el-table-column>
-                <el-table-column prop = "level" label = "级别"></el-table-column>
-                <el-table-column label = "操作">
-                    <template slot-scope = "scope">
-                        <el-button size = "mini" @click = "edit(scope.row)">编辑</el-button>
-                        <el-button size = "mini" @click = "del(scope.row.id)">删除</el-button>
+        <el-card class="box-card">
+            <el-input style="width: 180px;margin: 0 10px;" autocomplete="off" placeholder="查询" v-model="table.select.name"></el-input>
+            <el-button type="primary" @click="reloadTable" icon="el-icon-search">查询</el-button>
+            <el-button type="primary" @click="add">新增</el-button>
+
+            <el-table
+                v-loading="table.loading"
+                :data="table.tableData"
+                border
+                row-key="id"
+                :default-expand-all="false"
+                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+                style="width: 100%;margin-top: 10px;margin-bottom: 10px;"
+            >
+                <el-table-column type="index" width="50"></el-table-column>
+                <el-table-column prop="name" label="名称"></el-table-column>
+                <el-table-column prop="parent" label="上级ID"></el-table-column>
+                <el-table-column prop="level" label="级别"></el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-button size="mini" @click="edit(scope.row)">编辑</el-button>
+                        <el-button size="mini" @click="del(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -38,21 +35,16 @@
             <!--            >-->
             <!--            </el-pagination>-->
         </el-card>
-        
-        <el-dialog
-                :visible.sync = "pop.form"
-                width = "30%"
-        >
-            <date-form ref = "dateForm" :type = "settings.form.type" :close = "closeForm" :parentTeam = "realData"></date-form>
+
+        <el-dialog :visible.sync="pop.form" width="30%">
+            <date-form ref="dateForm" :type="settings.form.type" :close="closeForm" :parentTeam="realData"></date-form>
         </el-dialog>
-    
     </div>
 </template>
 
 <script>
 import main from '@/api/team';
 import dateForm from './components/dateForm.vue';
-
 
 export default {
     name: 'index',
@@ -64,7 +56,7 @@ export default {
             pop: {
                 form: false
             },
-            realData: [],//未处理的原始数据
+            realData: [], //未处理的原始数据
             table: {
                 select: {
                     page: 1,
@@ -72,7 +64,7 @@ export default {
                 },
                 loading: false,
                 total: 0,
-                tableData: []//已进行分级处理的数据
+                tableData: [] //已进行分级处理的数据
             },
             settings: {
                 form: {
@@ -81,7 +73,6 @@ export default {
                 peopleInfo: [], //所有用户信息用作下拉
                 ddDepartment: [] //获取所有部门下拉
             }
-            
         };
     },
     computed: {},
@@ -118,25 +109,27 @@ export default {
         },
         setTableDate() {
             this.table.loading = true;
-            main.list(this.table.select).then(res => {
-                // console.info(res);
-                let cc = [];
-                res.data.forEach(item=>{
-                    cc.push(item);
+            main.list(this.table.select)
+                .then(res => {
+                    // console.info(res);
+                    let cc = [];
+                    res.data.forEach(item => {
+                        cc.push(item);
+                    });
+                    this.realData = cc;
+                    // this.setRealDate(res.data);
+                    // let list = res.data;
+                    // setTimeout(()=>{
+                    this.table.tableData = this.getParent(res.data);
+                    console.log(this.table.tableData);
+                    // },10000);
+                    this.table.total = res.count;
+                    this.table.loading = false;
+                })
+                .catch(err => {
+                    this.$message.error(err);
+                    this.table.loading = false;
                 });
-                this.realData =cc ;
-                // this.setRealDate(res.data);
-                // let list = res.data;
-                // setTimeout(()=>{
-                this.table.tableData = this.getParent(res.data);
-                
-                // },10000);
-                this.table.total = res.count;
-                this.table.loading = false;
-            }).catch(err => {
-                this.$message.error(err);
-                this.table.loading = false;
-            });
         },
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
@@ -156,18 +149,17 @@ export default {
         handleEdit(index, row) {
             //修改
             console.log(index, row);
-            
         },
         handleDelete(index, row) {
             //删除
             console.log(index, row);
-            
         },
         closeForm() {
             this.pop.form = false;
             this.reloadTable();
         },
-        add() {//添加
+        add() {
+            //添加
             this.settings.form.type = 1;
             this.pop.form = true;
             this.$nextTick(() => {
@@ -175,14 +167,14 @@ export default {
                 this.$refs['dateForm'].setParent(this.realData);
             });
         },
-        edit(data) {//编辑
+        edit(data) {
+            //编辑
             this.settings.form.type = 2;
             this.pop.form = true;
             this.$nextTick(() => {
                 this.$refs['dateForm'].clearForm();
                 this.$refs['dateForm'].setForm(data);
                 this.$refs['dateForm'].setParent(this.realData);
-    
             });
         },
         del(id) {
@@ -190,18 +182,16 @@ export default {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
-            }).then(() => {
-                
-                main.del({ id: id }).then(res => {
-                    this.$message.success('删除成功');
-                    this.reloadTable();//重载表格
-                }).catch(err => {
-                
-                });
-            }).catch(() => {
-            
-            });
-            
+            })
+                .then(() => {
+                    main.del({ id: id })
+                        .then(res => {
+                            this.$message.success('删除成功');
+                            this.reloadTable(); //重载表格
+                        })
+                        .catch(err => {});
+                })
+                .catch(() => {});
         }
     },
     created() {
@@ -209,13 +199,12 @@ export default {
             this.setTableDate(); //获取表格数据
         }, 100);
     },
-    mounted() {
-    }
+    mounted() {}
 };
 </script>
 
 <style scoped>
-    .el-select {
-        width: 100%;
-    }
+.el-select {
+    width: 100%;
+}
 </style>

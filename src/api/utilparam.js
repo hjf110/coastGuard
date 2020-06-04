@@ -28,7 +28,6 @@ const add = query => {
     });
 };
 
-
 //删除
 const del = query => {
     return request({
@@ -37,9 +36,6 @@ const del = query => {
         params: query
     });
 };
-
-
-
 
 export default {
     list,

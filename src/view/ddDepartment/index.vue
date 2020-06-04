@@ -7,7 +7,6 @@
                 :data="table.tableData"
                 border
                 row-key="id"
-                border
                 :default-expand-all="false"
                 :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
                 style="width: 100%;margin-top: 10px;margin-bottom: 10px;"
@@ -24,8 +23,7 @@
                                 inactive-color="#ff4949"
                                 :active-value="false"
                                 :inactive-value="true"
-                            >
-                            </el-switch>
+                            ></el-switch>
                         </div>
                         <!--                        <div @click="changeLocked(scope.row)">-->
                         <!--                            <el-radio-group v-model = "scope.row.locked" >-->
@@ -84,7 +82,12 @@
             <!--             </el-tree >-->
         </el-card>
 
-        <el-dialog v-dialogDrag :title="settings.form.type === 1 ? '添加账号' : '修改账号'" :visible.sync="settings.form.show" width="300px">
+        <el-dialog
+            v-dialogDrag
+            :title="settings.form.type === 1 ? '添加账号' : '修改账号'"
+            :visible.sync="settings.form.show"
+            width="300px"
+        >
             <el-form :model="form" label-width="auto">
                 <el-form-item label="父部门">
                     <el-select v-model="form.parent" filterable placeholder="请选择部门">
@@ -109,8 +112,7 @@
                         inactive-color="#ff4949"
                         :active-value="false"
                         :inactive-value="true"
-                    >
-                    </el-switch>
+                    ></el-switch>
                 </el-form-item>
             </el-form>
             <div slot="footer">
@@ -189,14 +191,17 @@ export default {
         },
         setTableDate() {
             this.table.loading = true;
-            ddDepartment.list({ page: this.table.page, limit: this.table.limit }).then(res => {
+            ddDepartment
+                .list({ page: this.table.page, limit: this.table.limit })
+                .then(res => {
                     // console.log('1111111111111====', res);
                     // this.settings.treeDdDept = res.data;
                     this.table.tableData = this.getParent(res.data);
                     console.log('数据表格的数据为----------------', this.table.tableData);
                     this.table.total = res.count;
                     this.table.loading = false;
-                }).catch(err => {
+                })
+                .catch(err => {
                     this.$message.error(err);
                     this.table.loading = false;
                 });

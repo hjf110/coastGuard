@@ -15,7 +15,7 @@ service.interceptors.request.use(
         if (config.method === 'post') {
             //普通post请求参数处理
             config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-            config.data = qs.stringify(config.data,{ indices: false });
+            config.data = qs.stringify(config.data, { indices: false });
             // config.
         } else if (config.method === 'post-json') {
             //post-json请求

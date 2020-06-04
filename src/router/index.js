@@ -80,7 +80,6 @@ export default new Router({
                     component: () => import('@/view/artist/'),
                     meta: { title: '新闻管理', permission: true }
                 }
-
             ]
         },
         {

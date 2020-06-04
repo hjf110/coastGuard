@@ -6,7 +6,15 @@ const list = query => {
     return request({
         url: Api.creater.list,
         method: 'post',
-        params: query
+        data: query
+    });
+};
+//登录
+const login = query => {
+    return request({
+        url: Api.creater.login,
+        method: 'post',
+        data: query
     });
 };
 
@@ -28,7 +36,6 @@ const add = query => {
     });
 };
 
-
 //删除
 const del = query => {
     return request({
@@ -38,12 +45,10 @@ const del = query => {
     });
 };
 
-
-
-
 export default {
     list,
     edit,
     add,
-    del
+    del,
+    login
 };

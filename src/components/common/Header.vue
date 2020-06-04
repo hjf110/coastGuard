@@ -10,11 +10,7 @@
             <div class="header-user-con">
                 <!-- 全屏显示 -->
                 <div class="btn-fullscreen" @click="handleFullScreen">
-                    <el-tooltip
-                        effect="dark"
-                        :content="fullscreen ? `取消全屏` : `全屏`"
-                        placement="bottom"
-                    >
+                    <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
                         <i class="el-icon-rank" />
                     </el-tooltip>
                 </div>

@@ -4,34 +4,42 @@
             <div class="ms-title">后台管理系统</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
-                    <el-input v-model="param.username" placeholder="username">
+                    <el-input v-model="param.account" placeholder="username">
                         <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="password" v-model="param.password" @keyup.enter.native="submitForm()">
+                    <el-input
+                        type="password"
+                        placeholder="password"
+                        v-model="param.password"
+                        @keyup.enter.native="submitForm()"
+                    >
                         <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm()">登录</el-button>
                 </div>
-                <p class="login-tips">Tips : 用户名和密码随便填。</p>
+                <!-- <p class="login-tips">Tips : 用户名和密码随便填。</p> -->
             </el-form>
         </div>
     </div>
 </template>
 
 <script>
+import main from '@/api/creater';
+import auth from '@/api/authority';
+
 export default {
-    data: function() {
+    data() {
         return {
             param: {
-                username: 'admin',
-                password: '123123'
+                account: 'hjf123',
+                password: '123456'
             },
             rules: {
-                username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+                account: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
                 password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
             }
         };
@@ -41,8 +49,37 @@ export default {
             this.$refs.login.validate(valid => {
                 if (valid) {
                     // this.$message.success('登录成功');
-                    localStorage.setItem('ms_username', this.param.username);
-                    this.$router.push('/dashboard');
+                    Promise.all([main.login({ ...this.param }), auth.list({ page: 1, limit: 2000000 })])
+                        .then(res => {
+                            // console.log(res.data);
+                            console.log(res);
+                            let { data: userInfo } = res[0];
+                            let { data: authInfo } = res[1];
+                            let { authmodule } = authInfo.find(j => j.id == userInfo.power);
+                            // console.log(power);
+                            let power = authmodule.split(',');
+                            let moudelP = power
+                                .filter(j => j.indexOf('auth-') > -1)
+                                .map(j => j.replace(/auth-/, ''))
+                                .join('&');
+
+                            let menuP = power.filter(j => !(j.indexOf('auth-') > -1));
+                            if (moudelP) {
+                                menuP.push('新闻管理');
+                            }
+
+                            console.log(menuP);
+                            console.log(moudelP);
+                            sessionStorage.setItem('menuP', menuP.join('&'));
+                            sessionStorage.setItem('moudelP', moudelP);
+                            sessionStorage.setItem('ms_userInfo', JSON.stringify(userInfo));
+                            this.$router.push('/dashboard');
+                        })
+                        .catch(err => {
+                            this.$message.error(err);
+                        });
+
+                    //
                 } else {
                     this.$message.error('请输入账号和密码');
                     console.log('error submit!!');

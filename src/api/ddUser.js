@@ -19,7 +19,6 @@ const edit = query => {
     });
 };
 
-
 //获取钉钉部门
 const dep = () => {
     return request({
@@ -27,8 +26,6 @@ const dep = () => {
         method: 'get'
     });
 };
-
-
 
 export default {
     list,
