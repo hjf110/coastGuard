@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
+        <el-form ref="elForm" :model="formData" :rules="rules"  label-width="100px">
             <el-form-item label="名称" prop="name">
                 <el-input v-model="formData.name" placeholder="请输入名称" clearable :style="{ width: '100%' }"></el-input>
             </el-form-item>
@@ -34,7 +34,7 @@
                 <!--                    </el-select>-->
                 <!--                </template>-->
             </el-form-item>
-            <el-form-item size="large">
+            <el-form-item >
                 <el-button :loading="loading" type="primary" @click="submitForm">提交</el-button>
                 <el-button @click="resetForm">重置</el-button>
             </el-form-item>

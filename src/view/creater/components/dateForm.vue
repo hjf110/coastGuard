@@ -1,11 +1,21 @@
 <template>
     <div>
-        <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
+        <el-form ref="elForm" :model="formData" :rules="rules" label-width="100px">
             <el-form-item label="姓名" prop="name">
-                <el-input v-model="formData.name" placeholder="请输入姓名" clearable :style="{ width: '100%' }"></el-input>
+                <el-input
+                    v-model="formData.name"
+                    placeholder="请输入姓名"
+                    clearable
+                    :style="{ width: '100%' }"
+                ></el-input>
             </el-form-item>
             <el-form-item label="账号" prop="account">
-                <el-input v-model="formData.account" placeholder="请输入账号" clearable :style="{ width: '100%' }"></el-input>
+                <el-input
+                    v-model="formData.account"
+                    placeholder="请输入账号"
+                    clearable
+                    :style="{ width: '100%' }"
+                ></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
                 <el-input
@@ -33,10 +43,15 @@
             </el-form-item>
             <el-form-item label="权限角色">
                 <el-select :style="{ width: '100%' }" v-model="formData.power" placeholder="请选择">
-                    <el-option v-for="(item, index) in authList" :key="index" :label="item.authgroup" :value="item.id"></el-option>
+                    <el-option
+                        v-for="(item, index) in authList"
+                        :key="index"
+                        :label="item.authgroup"
+                        :value="item.id"
+                    ></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item size="large">
+            <el-form-item>
                 <el-button :loading="loading" type="primary" @click="submitForm">提交</el-button>
                 <el-button @click="resetForm">重置</el-button>
             </el-form-item>

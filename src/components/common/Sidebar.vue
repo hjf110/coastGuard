@@ -83,14 +83,14 @@ export default {
                     title: '权限组管理',
                     isshow: false,
                     pk: '权限组管理'
-                },
-                {
-                    icon: 'el-icon-s-tools',
-                    index: 'utilparam',
-                    title: '系统参数管理',
-                    isshow: false,
-                    pk: '系统参数管理'
                 }
+                // {
+                //     icon: 'el-icon-s-tools',
+                //     index: 'utilparam',
+                //     title: '系统参数管理',
+                //     isshow: false,
+                //     pk: '系统参数管理'
+                // }
             ],
             res: [],
             useritem: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']

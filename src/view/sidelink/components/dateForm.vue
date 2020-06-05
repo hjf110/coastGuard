@@ -1,16 +1,33 @@
 <template>
     <div>
-        <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
+        <el-form ref="elForm" :model="formData" :rules="rules" label-width="100px">
             <el-form-item label="名称" prop="name">
-                <el-input v-model="formData.name" placeholder="请输入名称" clearable :style="{ width: '100%' }"></el-input>
+                <el-input
+                    v-model="formData.name"
+                    placeholder="请输入名称"
+                    clearable
+                    :style="{ width: '100%' }"
+                ></el-input>
             </el-form-item>
-            <!--      <el-form-item label="图标" prop="icon">-->
-            <!--        <el-input v-model="formData.icon" placeholder="请输入图标" clearable :style="{width: '100%'}"></el-input>-->
-            <!--      </el-form-item>-->
             <el-form-item label="跳转地址" prop="url">
-                <el-input v-model="formData.url" placeholder="请输入跳转地址" clearable :style="{ width: '100%' }"></el-input>
+                <el-input
+                    v-model="formData.url"
+                    placeholder="请输入跳转地址"
+                    clearable
+                    :style="{ width: '100%' }"
+                ></el-input>
             </el-form-item>
-            <el-form-item size="large">
+            <el-form-item label="类型" prop="icon">
+                <el-select :style="{width:'100%'}" v-model="formData.type" placeholder="请选择链接类型">
+                    <el-option
+                        v-for="(item, index) in settings.type"
+                        :key="index"
+                        :label="item.n"
+                        :value="item.v"
+                    ></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item>
                 <el-button :loading="loading" type="primary" @click="submitForm">提交</el-button>
                 <el-button @click="resetForm">重置</el-button>
             </el-form-item>
@@ -32,7 +49,14 @@ export default {
                 id: '',
                 name: undefined,
                 icon: undefined,
-                url: undefined
+                url: undefined,
+                type: undefined
+            },
+            settings: {
+                type: [
+                    { n: '友情链接', v: 1 },
+                    { n: '导航栏', v: 2 }
+                ]
             },
             rules: {
                 name: [
@@ -66,17 +90,19 @@ export default {
     methods: {
         clearForm() {
             //清空表单
-            this.formData.id = '';
-            this.formData.name = '';
-            this.formData.icon = '';
-            this.formData.url = '';
+            for (const key in this.formData) {
+                if (this.formData.hasOwnProperty(key)) {
+                    this.formData[key] = undefined;
+                }
+            }
         },
         setForm(date) {
             //赋值表单
-            this.formData.id = date.id;
-            this.formData.name = date.name;
-            this.formData.icon = date.icon;
-            this.formData.url = date.url;
+            for (const key in this.formData) {
+                if (this.formData.hasOwnProperty(key)) {
+                    this.formData[key] = date[key];
+                }
+            }
         },
         submitForm() {
             this.$refs['elForm'].validate(valid => {

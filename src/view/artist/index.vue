@@ -14,7 +14,11 @@
                     </el-breadcrumb>
                     <el-form style="margin-top:20px;" :model="table.select" inline>
                         <el-form-item>
+                            <el-input v-model="table.select.title" placeholder="请输入要查询的标题"></el-input>
+                        </el-form-item>
+                        <el-form-item>
                             <el-date-picker
+                                style="margin-top:1px"
                                 v-model="table.select.time"
                                 format="yyyy-MM-dd HH:mm:ss"
                                 value-format="yyyy-MM-dd HH:mm:ss"
@@ -23,6 +27,45 @@
                                 end-placeholder="发布结束时间"
                             ></el-date-picker>
                         </el-form-item>
+                        <template v-if="settings.moreShow">
+                            <el-form-item>
+                                <el-select v-model="table.select.sort_status" placeholder="请选择排序类型">
+                                    <el-option
+                                        v-for="(item, index) in settings.sort_status"
+                                        :key="index"
+                                        :label="item.n"
+                                        :value="item.v"
+                                    ></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-select v-model="table.select.valid" placeholder="请选择是否启用">
+                                    <el-option
+                                        v-for="(item, index) in settings.valid"
+                                        :key="index"
+                                        :label="item.n"
+                                        :value="item.v"
+                                    ></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-select v-model="table.select.isFast" placeholder="请选择是否是快速播报">
+                                    <el-option
+                                        v-for="(item, index) in settings.isFast"
+                                        :key="index"
+                                        :label="item.n"
+                                        :value="item.v"
+                                    ></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </template>
+                        <el-form-item>
+                            <i
+                                @click="settings.moreShow=!settings.moreShow"
+                                :class="[settings.moreShow?'el-icon-d-arrow-left':'el-icon-d-arrow-right']"
+                            ></i>
+                        </el-form-item>
+                        <br />
                         <el-form-item>
                             <el-button type="primary" @click="reloadTable" icon="el-icon-search">查询</el-button>
                         </el-form-item>
@@ -118,6 +161,10 @@ export default {
                     time: [],
                     page: 1,
                     limit: 20,
+                    sort_status: 2,
+                    valid: 1,
+                    title: '',
+                    isFast: undefined,
                     module: undefined,
                     publishtime_begin: undefined,
                     publishtime_end: undefined
@@ -131,9 +178,23 @@ export default {
                 tree: []
             },
             settings: {
+                moreShow: false,
                 form: {
                     type: 1
                 },
+                sort_status: [
+                    { n: '发布时间正序', v: 1 },
+                    { n: '发布时间倒序', v: 2 },
+                    { n: '访问次数倒序', v: 3 }
+                ],
+                valid: [
+                    { n: '启用', v: 1 },
+                    { n: '禁用', v: 0 }
+                ],
+                isFast: [
+                    { n: '是快速播报', v: true },
+                    { n: '不是快速播报', v: false }
+                ],
                 peopleInfo: [], //所有用户信息用作下拉
                 ddDepartment: [] //获取所有部门下拉
             }

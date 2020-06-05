@@ -1,12 +1,12 @@
 <template>
     <div>
-        <el-form ref="elForm" :model="formData" :rules="rules" size="mini" label-width="100px">
+        <el-form ref="elForm" :model="formData" :rules="rules"  label-width="100px">
             <el-form-item label="邮件地址" prop="wordtext">
                 <el-input v-model="formData.wordtext" placeholder="请输入邮件地址" clearable :style="{ width: '100%' }"> </el-input>
             </el-form-item>
-            <el-form-item size="large">
-                <el-button :loading="loading" type="primary" size="mini" @click="submitForm">提交</el-button>
-                <el-button size="mini" @click="resetForm">重置</el-button>
+            <el-form-item >
+                <el-button :loading="loading" type="primary"  @click="submitForm">提交</el-button>
+                <el-button  @click="resetForm">重置</el-button>
             </el-form-item>
         </el-form>
     </div>

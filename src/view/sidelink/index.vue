@@ -1,15 +1,35 @@
 <template>
     <div>
         <el-card class="box-card">
-            <el-input style="width: 180px;margin: 0 10px;" autocomplete="off" placeholder="查询" v-model="table.select.name"></el-input>
+            <el-input
+                style="width: 180px;margin: 0 10px;"
+                autocomplete="off"
+                placeholder="查询"
+                v-model="table.select.name"
+            ></el-input>
             <el-button type="primary" @click="reloadTable" icon="el-icon-search">查询</el-button>
             <el-button type="primary" @click="add">新增</el-button>
 
-            <el-table v-loading="table.loading" :data="table.tableData" border style="width: 100%;margin-top: 10px;margin-bottom: 10px;">
-                <el-table-column type="index" width="50"> </el-table-column>
+            <el-table
+                v-loading="table.loading"
+                :data="table.tableData"
+                border
+                style="width: 100%;margin-top: 10px;margin-bottom: 10px;"
+            >
+                <el-table-column type="index" width="50"></el-table-column>
                 <el-table-column prop="name" label="名称"></el-table-column>
                 <!--                <el-table-column prop="icon" label="图标"></el-table-column>-->
                 <el-table-column prop="url" label="跳转链接"></el-table-column>
+                <el-table-column prop="type" label="类型">
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.type==1">
+                            <el-tag>友情链接</el-tag>
+                        </template>
+                        <template v-else-if="scope.row.type==2">
+                            <el-tag type="success">导航栏</el-tag>
+                        </template>
+                    </template>
+                </el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="edit(scope.row)">编辑</el-button>
@@ -24,11 +44,10 @@
                 :page-size="table.select.limit"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="table.total"
-            >
-            </el-pagination>
+            ></el-pagination>
         </el-card>
 
-        <el-dialog :visible.sync="pop.form" width="30%">
+        <el-dialog :visible.sync="pop.form" width="400px">
             <date-form ref="dateForm" :type="settings.form.type" :close="closeForm"></date-form>
         </el-dialog>
     </div>

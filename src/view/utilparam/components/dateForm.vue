@@ -1,13 +1,23 @@
 <template>
     <div>
-        <el-form ref="elForm" :model="formData" :rules="rules" size="mini" label-width="100px">
+        <el-form ref="elForm" :model="formData" :rules="rules" label-width="100px">
             <el-form-item label="配置项" prop="key">
-                <el-input v-model="formData.key" placeholder="请输入配置项" clearable :style="{ width: '100%' }"></el-input>
+                <el-input
+                    v-model="formData.key"
+                    placeholder="请输入配置项"
+                    clearable
+                    :style="{ width: '100%' }"
+                ></el-input>
             </el-form-item>
             <el-form-item label="值" prop="value">
-                <el-input v-model="formData.value" placeholder="请输入值" clearable :style="{ width: '100%' }"></el-input>
+                <el-input
+                    v-model="formData.value"
+                    placeholder="请输入值"
+                    clearable
+                    :style="{ width: '100%' }"
+                ></el-input>
             </el-form-item>
-            <el-form-item size="large">
+            <el-form-item>
                 <el-button :loading="loading" type="primary" @click="submitForm">提交</el-button>
                 <el-button @click="resetForm">重置</el-button>
             </el-form-item>

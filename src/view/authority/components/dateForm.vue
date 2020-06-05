@@ -106,11 +106,11 @@ export default {
                 {
                     value: '权限组管理',
                     title: '权限组管理'
-                },
-                {
-                    value: '系统参数管理',
-                    title: '系统参数管理'
                 }
+                // {
+                //     value: '系统参数管理',
+                //     title: '系统参数管理'
+                // }
             ],
             data: {
                 authmodule: []

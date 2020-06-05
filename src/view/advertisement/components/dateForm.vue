@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form ref="elForm" :model="formData" :rules="rules" size="mini" label-width="100px">
+        <el-form ref="elForm" :model="formData" :rules="rules" label-width="100px">
             <el-form-item label="广告图" prop="picture" required>
                 <el-upload
                     ref="pic"
@@ -52,7 +52,7 @@
             <el-form-item label="有效" prop="valid" required>
                 <el-switch :active-value="1" :inactive-value="0" v-model="formData.valid"></el-switch>
             </el-form-item>
-            <el-form-item size="large">
+            <el-form-item>
                 <el-button :loading="loading" type="primary" @click="submitForm">提交</el-button>
                 <el-button @click="resetForm">重置</el-button>
             </el-form-item>
