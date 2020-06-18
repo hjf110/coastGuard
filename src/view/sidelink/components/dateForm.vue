@@ -17,7 +17,7 @@
                     :style="{ width: '100%' }"
                 ></el-input>
             </el-form-item>
-            <el-form-item label="类型" prop="icon">
+            <el-form-item label="类型">
                 <el-select :style="{width:'100%'}" v-model="formData.type" placeholder="请选择链接类型">
                     <el-option
                         v-for="(item, index) in settings.type"
@@ -66,13 +66,7 @@ export default {
                         trigger: 'blur'
                     }
                 ],
-                icon: [
-                    {
-                        required: true,
-                        message: '请输入图标',
-                        trigger: 'blur'
-                    }
-                ],
+
                 url: [
                     {
                         required: true,

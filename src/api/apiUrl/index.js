@@ -54,7 +54,8 @@ export default {
         add: baseUrl + 'module/add',
         edit: baseUrl + 'module/edit',
         list: baseUrl + 'module/list',
-        del: baseUrl + 'module/delete'
+        del: baseUrl + 'module/delete',
+        tree: baseUrl + '/module/tree'
     },
     area: {
         add: baseUrl + 'area/add',

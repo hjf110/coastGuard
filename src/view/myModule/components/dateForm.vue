@@ -2,8 +2,14 @@
     <div>
         <el-form ref="elForm" :model="formData" :rules="rules" label-width="100px">
             <el-form-item label="模块名称" prop="name">
-                <el-input v-model="formData.name" placeholder="请输入模块名称" clearable :style="{ width: '100%' }"></el-input>
+                <el-input
+                    v-model="formData.name"
+                    placeholder="请输入模块名称"
+                    clearable
+                    :style="{ width: '100%' }"
+                ></el-input>
             </el-form-item>
+
             <el-form-item label="父栏目" prop="parent">
                 <el-cascader
                     style="width: 100%;"
@@ -29,6 +35,14 @@
             </el-form-item>-->
             <el-form-item label="是否启用" prop="valid">
                 <el-switch :active-value="1" :inactive-value="0" v-model="formData.valid" />
+            </el-form-item>
+            <el-form-item label="排序">
+                <el-input
+                    v-model="formData.sort"
+                    placeholder="请输入排序"
+                    clearable
+                    :style="{ width: '100%' }"
+                ></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button :loading="loading" type="primary" @click="submitForm">提交</el-button>
@@ -64,7 +78,8 @@ export default {
                 // leftright: undefined,
                 // rowindex: undefined,
                 parent: undefined,
-                valid: false
+                valid: false,
+                sort: 0
             },
             rules: {
                 name: [
@@ -195,10 +210,18 @@ export default {
                 }
             }
 
-            this.data.modelList = data.parentIds
+            let list = data.parentIds
                 .split(',')
                 .filter(j => j)
                 .map(j => parseInt(j));
+            if (list.length == 1) {
+                this.data.modelList = [];
+            } else {
+                this.data.modelList = [];
+                for (let index = 0; index < list.length - 1; index++) {
+                    this.data.modelList.push(list[index]);
+                }
+            }
         },
         submitForm() {
             this.$refs['elForm'].validate(valid => {
@@ -223,6 +246,7 @@ export default {
                             this.$message.error(err);
                         });
                 } else if (this.type === 2) {
+                    formData.parent = formData.id == formData.parent ? null : formData.parent;
                     main.edit(formData)
                         .then(res => {
                             this.close();

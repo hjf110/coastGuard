@@ -121,7 +121,13 @@
             </el-row>
         </el-card>
 
-        <el-dialog :visible.sync="pop.form" width="90vw" center :close-on-press-escape="false">
+        <el-dialog
+            :visible.sync="pop.form"
+            :modal="false"
+            width="90vw"
+            center
+            :close-on-press-escape="false"
+        >
             <date-form
                 ref="dateForm"
                 :type="settings.form.type"
@@ -410,5 +416,8 @@ export default {
 <style scoped>
 .el-select {
     width: 100%;
+}
+/deep/ .el-dialog__wrapper {
+    z-index: 90 !important;
 }
 </style>

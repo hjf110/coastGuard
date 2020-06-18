@@ -1,7 +1,12 @@
 <template>
     <div>
         <el-card class="box-card">
-            <el-input style="width: 180px;margin: 0 10px;" autocomplete="off" placeholder="查询" v-model="table.select.name"></el-input>
+            <el-input
+                style="width: 180px;margin: 0 10px;"
+                autocomplete="off"
+                placeholder="查询"
+                v-model="table.select.name"
+            ></el-input>
             <el-button type="primary" @click="reloadTable" icon="el-icon-search">查询</el-button>
             <el-button type="primary" @click="add">新增</el-button>
 
@@ -17,6 +22,7 @@
                 <el-table-column type="index" width="50"></el-table-column>
                 <el-table-column prop="name" label="名称"></el-table-column>
                 <el-table-column prop="parent" label="父ID"></el-table-column>
+                <el-table-column prop="sort" label="排序值（越小越在前）"></el-table-column>
                 <el-table-column prop="valid" label="是否启用">
                     <template slot-scope="scope">
                         <template v-if="scope.row.valid === 1">
@@ -29,7 +35,11 @@
                 </el-table-column>
                 <el-table-column label="操作" width="260">
                     <template slot-scope="scope">
-                        <el-button v-if="!scope.row.parent" type="primary" @click="setArea(scope.row)">设置显示区域</el-button>
+                        <el-button
+                            v-if="!scope.row.parent"
+                            type="primary"
+                            @click="setArea(scope.row)"
+                        >设置显示区域</el-button>
                         <el-button @click="edit(scope.row)">编辑</el-button>
                         <el-button type="danger" @click="del(scope.row.id)">删除</el-button>
                     </template>
@@ -101,10 +111,11 @@ export default {
     methods: {
         setTableDate() {
             this.table.loading = true;
-            main.list(this.table.select)
+            main.tree()
                 .then(res => {
                     // console.log('1111111111111====', res);
-                    this.table.tableData = this.$ValidateUtil.getParent(res.data);
+                    // this.table.tableData = this.$ValidateUtil.getParent(res.data);
+                    this.table.tableData = res.data;
 
                     this.table.total = res.count;
                     this.table.loading = false;

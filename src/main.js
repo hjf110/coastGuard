@@ -27,6 +27,15 @@ import 'vue-image-swipe/dist/vue-image-swipe.css';
 // import 'ant-design-vue/dist/antd.css';
 import { Tree, TreeSelect } from 'ant-design-vue';
 
+// import './assets/ueditor/ueditor.config.js';
+// import './assets/ueditor/ueditor.all.min.js';
+// import './assets/ueditor/lang/zh-cn/zh-cn.js';
+// // import './assets/ueditor/ueditor.parse.min.js';
+// import './assets/ueditor/themes/default/css/ueditor.css';
+
+import VueUeditorWrap from 'vue-ueditor-wrap';
+Vue.component('vue-ueditor-wrap', VueUeditorWrap);
+
 Vue.use(Tree);
 Vue.use(TreeSelect);
 Vue.use(VueImageSwipe);

@@ -2,10 +2,20 @@
     <div>
         <el-form ref="elForm" :model="formData" :rules="rules" label-width="100px">
             <el-form-item label="标题" prop="title">
-                <el-input v-model="formData.title" placeholder="请输入标题" clearable :style="{ width: '100%' }"></el-input>
+                <el-input
+                    v-model="formData.title"
+                    placeholder="请输入标题"
+                    clearable
+                    :style="{ width: '100%' }"
+                ></el-input>
             </el-form-item>
             <el-form-item label="作者" prop="creatername">
-                <el-input v-model="formData.creatername" placeholder="请输入作者" clearable :style="{ width: '100%' }"></el-input>
+                <el-input
+                    v-model="formData.creatername"
+                    placeholder="请输入作者"
+                    clearable
+                    :style="{ width: '100%' }"
+                ></el-input>
             </el-form-item>
             <!--            <el-form-item label="信息员" prop="createrid">-->
             <!--                <el-select v-model="formData.createrid" placeholder="请选择信息员" clearable :style="{width: '100%'}">-->
@@ -52,7 +62,12 @@
                 ></el-date-picker>
             </el-form-item>
             <el-form-item label="详情地址">
-                <el-input v-model="formData.weburl" placeholder="请输入详情地址" clearable :style="{ width: '100%' }"></el-input>
+                <el-input
+                    v-model="formData.weburl"
+                    placeholder="请输入详情地址"
+                    clearable
+                    :style="{ width: '100%' }"
+                ></el-input>
             </el-form-item>
             <el-form-item label="梗要预览" prop="substract">
                 <el-input
@@ -89,10 +104,15 @@
                 <el-switch v-model="formData.isFast" :active-value="true" :inactive-value="false"></el-switch>
             </el-form-item>
             <el-form-item label="文章内容" prop="content">
+                <!-- <Uediter :value="ueditor.value" :config="ueditor.config" ref="ued" /> -->
+                <!-- <vue-ueditor-wrap v-model="formData.content" :config="ueditor.myConfig"></vue-ueditor-wrap> -->
+                <Editor id="tinymce" v-model="formData.content" :init="init"></Editor>
+                <!-- <div>{{tinymceHtml}}</div> -->
+                <!-- 编辑器 -->
                 <!-- <el-button type="primary" @click="pop.content=true">
                     {{formData.content?'修改文章内容':'添加文章内容'}}
                 </el-button>-->
-                <quill-editor ref="myTextEditor" v-model="formData.content" :options="editorOption"></quill-editor>
+                <!-- <quill-editor ref="myTextEditor" v-model="formData.content" :options="editorOption"></quill-editor>
                 <el-upload
                     v-show="false"
                     ref="pic"
@@ -103,7 +123,7 @@
                     :on-success="UploadSuccess2"
                 >
                     <el-button class="editUpload" type="primary">编辑器图片上传</el-button>
-                </el-upload>
+                </el-upload>-->
             </el-form-item>
             <el-form-item label="是否启用" prop="valid" required>
                 <el-switch v-model="formData.valid" :active-value="1" :inactive-value="0"></el-switch>
@@ -114,7 +134,13 @@
                 <el-button @click="resetForm">重置</el-button>
             </el-form-item>
 
-            <el-dialog title="编辑文章" :visible.sync="pop.content" :modal="false" :close-on-press-escape="false" fullscreen></el-dialog>
+            <el-dialog
+                title="编辑文章"
+                :visible.sync="pop.content"
+                :modal="false"
+                :close-on-press-escape="false"
+                fullscreen
+            ></el-dialog>
         </el-form>
     </div>
 </template>
@@ -125,6 +151,25 @@ import 'quill/dist/quill.bubble.css';
 import { quillEditor } from 'vue-quill-editor';
 import main from '@/api/artist';
 import api from '@/api/apiUrl/';
+import setting from '@/api/upload';
+
+// import Uediter from '@/components/ueditor/';
+
+import tinymce from 'tinymce/tinymce';
+import Editor from '@tinymce/tinymce-vue';
+// import 'tinymce/themes/modern/theme' // 引入主题
+import 'tinymce/themes/silver';
+import 'tinymce/icons/default/icons';
+
+import 'tinymce/plugins/image';
+import 'tinymce/plugins/link';
+import 'tinymce/plugins/code';
+import 'tinymce/plugins/table';
+import 'tinymce/plugins/lists';
+import 'tinymce/plugins/contextmenu';
+import 'tinymce/plugins/wordcount';
+import 'tinymce/plugins/colorpicker';
+import 'tinymce/plugins/textcolor';
 
 // 工具栏配置
 const toolbarOptions = [
@@ -150,7 +195,8 @@ const toolbarOptions = [
 export default {
     name: 'dateForm',
     components: {
-        quillEditor
+        quillEditor,
+        Editor
     },
     props: {
         type: Number,
@@ -160,6 +206,39 @@ export default {
     },
     data() {
         return {
+            tinymceHtml: '请输入内容',
+            init: {
+                language_url: '/tinymce/langs/zh_CN.js',
+                language: 'zh_CN',
+                skin_url: '/tinymce/skins/ui/oxide',
+                branding: false, //是否禁用“Powered by TinyMCE”
+                height: 300, // 编辑器的高度
+                plugins: 'link lists image code table colorpicker textcolor wordcount contextmenu fullscreen',
+                toolbar: [
+                    'bold italic underline strikethrough | fontsizeselect | fontselect| forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | undo redo|link image |code table | removeformat fullscreen'
+                ],
+                // 上传本地图片的方法 axios上传方式
+                images_upload_handler: function(blobInfo, success, failure) {
+                    console.log('进入了');
+                    const formData = new FormData();
+                    formData.append('file', blobInfo.blob(), blobInfo.filename());
+                    setting.upload(formData).then(res => {
+                        success(res.data.url);
+                        // console.log(res);
+                    });
+                }
+            },
+            ueditor: {
+                myConfig: {
+                    // serverUrl: `http://115.238.154.91:8105/hj-server/file/local-upload`, // 上传功能的后端服务器接口地址
+                    UEDITOR_HOME_URL: '/ueditor/', // 你的UEditor资源存放的路径,相对于打包后的index.html
+                    autoHeightEnabled: true, // 编辑器是否自动被内容撑高
+                    autoFloatEnabled: true, // 工具栏是否可以浮动
+                    initialFrameHeight: 340, // 初始容器高度
+                    initialFrameWidth: '100%', // 初始容器高度
+                    enableAutoSave: true // 关闭自动保存
+                }
+            },
             editorOption: {
                 modules: {
                     toolbar: {
@@ -303,7 +382,9 @@ export default {
         }
     },
     created() {},
-    mounted() {},
+    mounted() {
+        tinymce.init({});
+    },
     methods: {
         clearForm(modelid) {
             //清空(初始化)表单
@@ -373,6 +454,8 @@ export default {
                 if (!valid) return;
                 // TODO 提交表单
                 console.log(this.formData);
+                let userInfo = JSON.parse(sessionStorage.getItem('ms_userInfo'));
+                this.formData.createrid = userInfo.id;
                 this.loading = true;
                 if (this.type === 1) {
                     //添加表单
@@ -402,11 +485,11 @@ export default {
             this.$refs['elForm'].resetFields();
         },
         pictureBeforeUpload(file) {
-            let isRightSize = file.size / 1024 / 1024 < 2;
-            if (!isRightSize) {
-                this.$message.error('文件大小超过 2MB');
-            }
-            return isRightSize;
+            // let isRightSize = file.size / 1024 / 1024 < 2;
+            // if (!isRightSize) {
+            //     this.$message.error('文件大小超过 2MB');
+            // }
+            return true;
         },
         UploadSuccess(res, file, fileList) {
             //文件上传成功
