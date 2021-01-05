@@ -11,7 +11,7 @@
     "dependencies": {
         "@tinymce/tinymce-vue": "^3.2.2",
         "ant-design-vue": "^1.6.2",
-        "axios": "^0.18.0",
+        "axios": "^0.21.1",
         "babel-plugin-import": "^1.13.0",
         "babel-polyfill": "^6.26.0",
         "dingtalk-jsapi": "^2.9.14",
